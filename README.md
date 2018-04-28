@@ -1,82 +1,13 @@
-#include<stdio.h>
-int main()
-{
-int i,n,p[10]={1,2,3,4,5,6,7,8,9,10},min,k=1,btime=0;
-int bt[10],temp,j,at[10],wt[10],tt[10],ta=0,sum=0;
-float wavg=0,tavg=0,tsum=0,wsum=0;
-printf(" -------Shortest Job First Scheduling ( NP )-------\n");
-printf("\nEnter the No. of processes :");
-scanf("%d",&n);
-for(i=0;i<n;i++)
-{
-printf("\tEnter the burst time of %d process :",i+1);
-scanf(" %d",&bt[i]);
-printf("\tEnter the arrival time of %d process :",i+1);
-scanf(" %d",&at[i]);
-} 
-for(i=0;i<n;i++)
-{
-for(j=0;j<n;j++)
-{
-if(at[i]<at[j])
-{
-temp=p[j];
-p[j]=p[i];
-p[i]=temp;
-temp=at[j];
-at[j]=at[i];
-at[i]=temp;
-temp=bt[j];
-bt[j]=bt[i];
-bt[i]=temp;
-}
-}
-}
-for(j=0;j<n;j++)
-{
-btime=btime+bt[j];
-min=bt[k];
-for(i=k;i<n;i++)
-{
-if (btime>=at[i] && bt[i]<min)
-{
-temp=p[k];
-p[k]=p[i];
-p[i]=temp;
-temp=at[k];
-at[k]=at[i];
-at[i]=temp;
-temp=bt[k];
-bt[k]=bt[i];
-bt[i]=temp;
-}
-}
-k++;
-}
-wt[0]=0;
-for(i=1;i<n;i++)
-{
-sum=sum+bt[i-1];
-wt[i]=sum-at[i];
-wsum=wsum+wt[i];
-}
+Shortest job first (SJF) or shortest job next, is a scheduling policy that selects the waiting process with the smallest execution time to execute next. SJN is a non-pre-emptive algorithm.
+	Shortest Job first has the advantage of having minimum average waiting time among all scheduling algorithms.
+	It is a Greedy Algorithm.
+	It may cause starvation if shorter processes keep coming. This problem can be solved using the concept of aging.
+	It is practically infeasible as Operating System may not know burst time and therefore may not sort them. While it is not possible to predict execution time, several methods can be used to estimate the execution time for a job, such as a weighted average of previous execution times. SJF can be used in specialized environments where accurate estimates of running time are available.
+ALGORITHM:  
+1- Sort all the processes in increasing order 
+   according to burst time.
+2- Then simply, apply FCFS.
  
-wavg=(wsum/n);
-for(i=0;i<n;i++)
-{
-ta=ta+bt[i];
-tt[i]=ta-at[i];
-tsum=tsum+tt[i];
-}
-
-tavg=(tsum/n);
-printf("\n RESULT:-");
-printf("\nProcess\t Burst\t Arrival\t Waiting\t Turn-around" );
-for(i=0;i<n;i++)
-{
-printf("\n p%d\t %d\t %d\t\t %d\t\t\t%d",p[i],bt[i],at[i],wt[i],tt[i]);
-}
-printf("\n\nAVERAGE WAITING TIME : %f",wavg);
-printf("\nAVERAGE TURN AROUND TIME : %f",tavg);
-return 0;
-}
+ 
+Time Complexity: 
+n*2*log n which is equal to n log n 
